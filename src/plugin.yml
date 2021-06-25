@@ -1,0 +1,12 @@
+main: fr.peaceandcube.killthehippie.KillTheHippie
+name: KillTheHippie
+version: 1.0.0
+author: YanisBft
+website: https://github.com/PeaceAndCubeMC/KillTheHippie
+api-version: 1.16
+
+depend: [UhcCore]
+
+commands:
+  flowers:
+    description: Permet de voir son avancée sur le scénario FullFlowers
