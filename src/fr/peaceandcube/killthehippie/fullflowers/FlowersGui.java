@@ -23,7 +23,7 @@ public class FlowersGui implements Listener {
 
         for (int i = 9; i < 18; i++) {
             Material glassPane = Material.RED_STAINED_GLASS_PANE;
-            if (FullFlowersListener.flowersByPlayer.get(player).contains(FullFlowersListener.FLOWERS.get(i - 9))) {
+            if (FullFlowersListener.flowersByPlayer.get(player.getUniqueId()).contains(FullFlowersListener.FLOWERS.get(i - 9))) {
                 glassPane = Material.LIME_STAINED_GLASS_PANE;
             }
 
@@ -36,7 +36,7 @@ public class FlowersGui implements Listener {
 
         for (int i = 27; i < 35; i++) {
             Material glassPane = Material.RED_STAINED_GLASS_PANE;
-            if (FullFlowersListener.flowersByPlayer.get(player).contains(FullFlowersListener.FLOWERS.get(i - 18))) {
+            if (FullFlowersListener.flowersByPlayer.get(player.getUniqueId()).contains(FullFlowersListener.FLOWERS.get(i - 18))) {
                 glassPane = Material.LIME_STAINED_GLASS_PANE;
             }
 

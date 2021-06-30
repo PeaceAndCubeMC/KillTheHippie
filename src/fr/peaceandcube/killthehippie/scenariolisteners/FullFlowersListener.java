@@ -1,7 +1,6 @@
 package fr.peaceandcube.killthehippie.scenariolisteners;
 
 import com.gmail.val59000mc.events.UhcStartedEvent;
-import com.gmail.val59000mc.exceptions.UhcPlayerNotOnlineException;
 import com.gmail.val59000mc.scenarios.ScenarioListener;
 import com.gmail.val59000mc.utils.RandomUtils;
 import fr.peaceandcube.killthehippie.Messages;
@@ -25,15 +24,12 @@ public class FullFlowersListener extends ScenarioListener {
             Material.WITHER_ROSE, Material.SUNFLOWER, Material.LILAC, Material.ROSE_BUSH, Material.PEONY
     );
 
-    public static Map<Player, List<Material>> flowersByPlayer = new HashMap<>();
+    public static Map<UUID, List<Material>> flowersByPlayer = new HashMap<>();
 
     @EventHandler
     public void onGameStart(UhcStartedEvent e) {
         this.getPlayerManager().getOnlinePlayingPlayers().forEach(player -> {
-            try {
-                flowersByPlayer.put(player.getPlayer(), new ArrayList<>());
-            } catch (UhcPlayerNotOnlineException ignored) {
-            }
+            flowersByPlayer.put(player.getUuid(), new ArrayList<>());
         });
     }
 
@@ -41,9 +37,10 @@ public class FullFlowersListener extends ScenarioListener {
     public void onBlockBreak(BlockBreakEvent e) {
         Material type = e.getBlock().getType();
         Player player = e.getPlayer();
+        flowersByPlayer.putIfAbsent(player.getUniqueId(), new ArrayList<>());
 
-        if (FLOWERS.contains(type) && !flowersByPlayer.get(player).contains(type)) {
-            flowersByPlayer.get(player).add(type);
+        if (FLOWERS.contains(type) && !flowersByPlayer.get(player.getUniqueId()).contains(type)) {
+            flowersByPlayer.get(player.getUniqueId()).add(type);
 
             if (this.hasAllFlowers(player)) {
                 player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(30.0D);
@@ -63,12 +60,12 @@ public class FullFlowersListener extends ScenarioListener {
     }
 
     private boolean hasAllFlowers(Player player) {
-        if (flowersByPlayer.get(player).size() != FLOWERS.size()) {
+        if (flowersByPlayer.get(player.getUniqueId()).size() != FLOWERS.size()) {
             return false;
         }
 
         for (Material flower : FLOWERS) {
-            if (!flowersByPlayer.get(player).contains(flower)) {
+            if (!flowersByPlayer.get(player.getUniqueId()).contains(flower)) {
                 return false;
             }
         }
